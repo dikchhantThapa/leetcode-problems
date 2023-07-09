@@ -1,0 +1,89 @@
+/*
+Given two sorted integer arrays arr1 and arr2, return a new array that combines 
+both of them and is also sorted.
+
+*/
+
+
+import java.util.*;
+
+class Main {
+  public static void main(String[] args) {
+    int[] arr1 = {1, 4, 7, 20};
+    int[] arr2 = {3, 5, 5, 6};
+
+    System.out.println(combinedSortedArray(arr1, arr2));
+    
+  }
+
+  public static List<Integer> combinedSortedArray(int[] arr1, int[] arr2) {
+    
+    /*
+    1, 4, 7, 20  
+    ^
+    3, 5, 6
+    ^
+    = 1, 3, 4, 5, 6, 7, 20 
+    
+    ans = []
+    i = 0 
+    j = 0 
+
+    while (i < arr1.length and j < arr2.length):
+      if (arr1[i] < arr2[j]):
+        ans.add(arr1[i])
+        i++
+      else:
+        ans.add(arr2[j])
+        j++
+
+
+    while (i < arr1.length):
+      ans.add(arr1[i])
+      i++
+
+    
+    while (j < arr2.length):
+      ans.add(arr2[j])
+      j++
+        
+    return ans  
+    
+    */
+    
+    List<Integer> sortedArray = new ArrayList<>(); 
+
+    int i = 0;
+    int j = 0;
+
+    /* we wait for 1 of the 2 arrays values to exhaust(finish)
+    / meaning while 1 of the 2 array hasn't reached the end 
+      (if 1 of the 2 arrays hasn't done checking all numbers in it)
+    */ 
+    while (i < arr1.length && j < arr2.length) {
+      if (arr1[i] < arr2[j]) {
+        sortedArray.add(arr1[i]);
+        i++;
+      } else {
+        sortedArray.add(arr2[j]);
+        j++;
+      }
+    }
+
+    // add whatever array is remaining and its conetents to the final answer 
+
+    while (i < arr1.length) {
+      sortedArray.add(arr1[i]);
+      i++;
+    }
+
+    while (j < arr2.length) {
+      sortedArray.add(arr2[j]);
+      j++;
+    }
+
+    return sortedArray;
+    
+  }
+  
+}

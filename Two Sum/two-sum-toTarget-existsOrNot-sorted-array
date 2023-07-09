@@ -14,7 +14,6 @@ class Main {
     // exists, because 9 + 4 = 13
 
     System.out.println(twoSumExists(nums, target));
-    
   }
 
   public static boolean twoSumExists (int[] nums, int target) {
@@ -40,9 +39,7 @@ class Main {
     
     }
 
-    return false;
-    
+    return false;    
   }
-
   
 }

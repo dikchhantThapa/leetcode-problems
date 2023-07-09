@@ -1,0 +1,71 @@
+/*
+Leetcode 392. Is Subsequence
+
+Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
+
+A subsequence of a string is a sequence of characters that can be obtained by deleting some (or none) 
+of the characters from the original string, while maintaining the relative order of the remaining characters. 
+For example, "ace" is a subsequence of "abcde" while "aec" is not.
+
+*/
+class Main {
+  public static void main(String[] args) {
+    String s = "abc";
+    String t = "ahbgdc";
+
+    System.out.println(isSubsequence(s, t));
+  }
+
+  public static boolean isSubsequence(String s, String t) {
+    /*
+
+    --> First, S CANNOT be a substring of T if it has more chars than T
+        so return false if S is longer than T 
+        
+    
+    abc
+    ^
+    ahbgdc
+    ^
+         
+    i = 0
+    j = 0
+
+    while (i < s.length() && j < t.length()):
+      if (s[i] == t[j]):
+        i++
+        j++
+      else:
+        j++     // j is incremented no matter what
+
+    // if we reach the end of s that means all were found
+    if (i == s.length()):
+      return true
+    else:
+      return false  
+    */
+
+    if (s.length() > t.length()) {
+      return false;
+    }
+    
+    int i = 0;
+    int j = 0; 
+
+    while (i < s.length() && j < t.length()) {
+      if (s.charAt(i) == s.charAt(j)) {
+        i++;
+      } 
+      
+      j++;
+    }
+
+    if (i == s.length()) {
+      return true;
+    }  else {
+      return false;
+    }
+    
+    
+  }
+}

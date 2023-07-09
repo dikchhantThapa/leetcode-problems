@@ -1,0 +1,23 @@
+class Main {
+  public static void main(String[] args) {
+    String s = "racecaar";
+    System.out.println(isPalindromeString(s));
+  }
+
+  public static boolean isPalindromeString(String s) {
+    // racecar
+    // l -->       <-- r
+    int left = 0;  // index 0
+    int right = s.length() - 1;  // index last 
+
+    while (left < right) {
+      if (s.charAt(left) != s.charAt(right)) {
+        return false;
+      }
+      left++;
+      right--;
+    }
+    return true;
+    
+  }
+}

@@ -1,0 +1,70 @@
+/*
+
+Given an array of positive integers nums and an integer k, find the length of the longest subarray
+whose sum is less than or equal to k. This is the problem we have been talking about above. We will now formally solve it.
+
+Let's look at an example where nums = [3, 1, 2, 7, 4, 2, 1, 1, 5] and k = 8.
+
+*/
+class Main {
+  public static void main(String[] args) {
+    int[] nums = {3, 1, 2, 7, 4, 2, 1, 1, 5};
+    int k = 8;
+
+    System.out.println(findLength(nums,k));
+    
+  }
+
+  public static int findLength(int[] nums, int k) {
+    /*
+    ans = 4   
+    3 1 2 7 4 2 1 1 5     k <= 8
+    ^ ^ ^  
+          ^ 
+            ^ ^ ^ ^    longest = 4 
+                ^ ^ ^
+              
+      
+    // counting subarray (window) length 
+    formula to find subarray length = right - left + 1
+    0 1 2 3(th index)  
+    3 - 0 + 1 = 3 + 1 = 4 
+      
+    
+    left = 0
+    currSum = 0 
+    ans = 0
+
+    for (right = 0; right < nums.length; right++):
+      currSum += nums[right]    // first number in array 
+      while (currSum > k):
+        currSum -= nums[left]
+        left++
+
+      ans = max (ans, right - left + 1)
+
+
+    return ans
+    
+    */
+    // 3 1 2 7 4 2 1 1 5      k = 8
+
+    
+    int left = 0;
+    int currSum = 0;
+    int ans = 0;
+
+    for (int right = 0; right < nums.length; right++) {
+      currSum += nums[right];
+      while (currSum > k) {
+        currSum -= nums[left];
+        left++;
+      }
+
+      ans = Math.max(ans, right - left + 1);
+    }
+
+    return ans;
+    
+  }
+}

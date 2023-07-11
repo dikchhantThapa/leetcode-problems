@@ -38,7 +38,19 @@ class Main {
              ^  ^
         */
       }
-      ans += right - left + 1;
+      ans += right - left + 1;  
+      /*
+      (Why are we calculating and adding the LENGTH to find the answer)
+      The TRICK here is: 
+      every time you add a new element to the subarray --> the number of subarray possible increase by the "length of the new subarray", hence the count += length of subarr
+      (so we count the length of the subarray and it's the same)
+      10      = 1 element
+      10, 5   = 2 element
+      5, 2    = 2 element
+      5, 2, 6 = 3 element
+      
+      
+      */
       right++;
     }
 

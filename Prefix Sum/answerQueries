@@ -1,0 +1,75 @@
+/*
+// Actually difficult question, practice this many times  
+
+// return-boolean-subarray-fromXtoY-less-than-limit
+
+Example 1: Given an integer array nums, an array queries where queries[i] = [x, y] and an integer limit, 
+return a boolean array that represents the answer to each query. A query is true if the sum of the subarray
+from x to y is less than limit, or false otherwise.
+
+For example, given nums = [1, 6, 3, 2, 7, 2], queries = [[0, 3], [2, 5], [2, 4]], and limit = 13, 
+the answer is [true, false, true]. For each query, the subarray sums are [12, 14, 12].
+*/
+
+import java.util.*;
+
+class Main {
+  public static void main(String[] args) {
+    int[] nums = {1, 6, 3, 2, 7, 2};
+    int[][] queries = {{0, 3}, {2, 5}, {2, 4}};
+    int limit = 13;
+    System.out.println(Arrays.toString(answerQueries(nums, queries, limit)));
+  }
+
+  public static boolean[] answerQueries(int[] nums, int[][] queries, int limit) {
+    /*
+    nums = 1, 6, 3, 2, 7, 2      queries = {0, 3}, {2, 5}, {2, 4}    limit = 13 
+    sum from 0 to 3 < 13 or not ?
+    sum from 3 to 5 < 13 or not ?
+    sum from 2 to 4 < 13 or not ? 
+
+    prefixSum = 1, 7, 10, 12, 19, 21 
+    // 0 to 3 sum = 12 - 0 = 12         12 < 13 ? true
+    // 2 to 5 sum  = 21 - 7 = 14        14 < 13 ? false
+    // 2 to 4 sum = 19 - 7 = 12         12 < 13 ? true
+
+    ---- answer  code 
+    
+    prefixSum = [ ]
+    prefixSum[0] = nums[0]
+    for (i = 1; i < nums.len; i++):
+      prefixSum[i] = prefixSum[i - 1] + nums[i]
+    // prefixSum has been initialized
+
+    boolean[] ans = new boolean[queries.len]
+    for (i = 0; i < queries.len; i++):
+      x = queries[i][0];     // 1st iteration --> 0, 0 (0) from (0,3)   // 2nd it = 1, 0 (2) from (2,5)  // 3rd it = 2, 0 (2) from (2,4)
+      y = queries[i][1];     // 1st iteration --> 0, 1 (3) from (0,3)   // 2nd it = 1, 1 (5) from (2,5)  // 3rd it = 2, 1 (4) from (2,4)
+      curr = prefix[y] - prefix[x] + nums[x]
+      ans[i] = curr < limit   // check if curr < limit and set to ans
+
+    return ans
+    
+    */
+
+    int[] prefix = new int[nums.length];
+    prefix[0] = nums[0];
+
+    for (int i = 1; i < nums.length; i++) {
+      prefix[i] = prefix[i - 1] + nums[i];
+    }
+
+    boolean[] ans = new boolean[queries.length];
+    for (int i = 0; i < queries.length; i++) {
+      int x = queries[i][0];    // 1st index of each query
+      int y = queries[i][1];    // 2nd index of each query
+      int curr = prefix[y] - prefix[x] + nums[x];
+      // int curr = prefix[y] - prefix[i - 1];    
+      // we don't use this, because this ^ gives out of bounds error
+      ans[i] = curr < limit;      
+    }
+    
+    return ans;
+  }
+    
+}

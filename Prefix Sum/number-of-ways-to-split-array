@@ -1,0 +1,43 @@
+/*
+Leetcode 2270. Number of Ways to Split Array
+
+Given an integer array nums, find the number of ways to split the array into two parts
+so that the first section has a sum greater than or equal to the sum of the second section. 
+The second section should have at least one number.
+
+*/
+class Main {
+  public static void main(String[] args) {
+    int[] nums = {10, 4, -8, 7};
+    System.out.println(waysToSplitArray(nums));
+  }
+
+  public static int waysToSplitArray(int[] nums) {
+    int rightNum = nums.length;
+
+    long[] prefix = new long[rightNum];
+    prefix[0] = nums[0];
+
+    // Calculating prefix Sum
+    for (int i = 1; i < rightNum; i++) {
+      prefix[i] = nums[i] + nums[i - 1];
+    }
+
+    int ans = 0;
+    /* we use (i < rightNum - 1) because the right section
+    can't be empty
+    */
+    for (int i = 0; i < rightNum - 1; i++) {
+      // left section is prefix of itself
+      long leftSection = prefix[i];
+      // right section is right border - left border 
+      // (meaning we subtract the left prefix contents)
+      long rightSection = prefix[rightNum - 1] - prefix[i];
+      if (leftSection >= rightSection) {
+        ans++;
+      }
+    }
+    return ans;
+  }
+  
+}

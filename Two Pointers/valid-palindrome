@@ -1,0 +1,80 @@
+/*
+Leetcode 125. Valid Palindrome
+
+A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.
+
+Given a string s, return true if it is a palindrome, or false otherwise.
+
+ 
+
+Example 1:
+
+Input: s = "A man, a plan, a canal: Panama"
+Output: true
+Explanation: "amanaplanacanalpanama" is a palindrome.
+
+*/
+
+
+class Main {
+  public static void main(String[] args) {
+    String s = "A man, a plan, a canal: Panama";
+    System.out.println(isPalindrome(s));
+  }
+
+  public static boolean isPalindrome (String s) {
+    /*
+    A man, a plan, a canal: Panama 
+    ^                            ^
+    i                            j
+
+   --->                  <---- 
+
+    i = 0
+    j = s.length() - 1
+    
+    while (i < j):
+      while (i < j && NOT letter or digit(i)):           // skip i if NOT letter or digit
+        i++
+      while (i < j && NOT letter or digit(j)):           // skip j if NOT letter or digit \
+        j--
+  
+      
+      if (i != j):
+        return false 
+      i++
+      j--
+  
+    return true
+
+    O(n)    time
+    O(1)    space 
+    
+    */
+
+    int i = 0;
+    int j = s.length() - 1;
+
+    while (i < j) {
+        while (i < j && !Character.isLetterOrDigit(s.charAt(i))) {
+            i++;
+        }
+
+        while (i < j && !Character.isLetterOrDigit(s.charAt(j))) {
+            j--;
+        }
+
+        if (Character.toLowerCase(s.charAt(i)) != Character.toLowerCase(s.charAt(j))) {
+            return false;
+        }
+
+        i++;
+        j--;
+    }
+
+    return true;
+
+
+  }
+  
+}

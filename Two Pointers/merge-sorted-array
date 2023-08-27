@@ -53,8 +53,8 @@ class Main {
 
 
     // filling up the remaining elements of nums2 into nums1
-    while n > 0:    // if there's still some left
-      nums1[last] = nums2[n]
+    while n > 0:    // if there's still some elements left in the nums2 array
+      nums1[last] = nums2[n - 1]
       n--
       last--
           

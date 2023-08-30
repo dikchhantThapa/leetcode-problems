@@ -1,0 +1,92 @@
+// Leetcode 713. Subarray Product Less Than K
+
+class Solution {
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        /**
+        
+        nums = 10 5 2 6         k = 100
+
+        10  5   2   6
+        ^^
+
+
+        if (k <= 1):        // if we don't find any products 
+            return 0        
+
+        left = 0
+        currProduct = 1     // any number multiplied by 1 is itself 
+        ans = 0 
+
+        for (int right = 0; right < nums.length; right++):
+            currProduct *= nums[right]  
+
+            while (currProduct >= k):
+                currProduct /= nums[left]       
+                left++ 
+
+            ans += right - left + 1     // keep incrementing all the subarrays less than k 
+
+        return ans
+
+
+
+            Explanation for the last line "right - left + 1" and why the current window size is the total number of subarray ending in the rightmost index
+
+
+                Consider the array [10, 5]
+                 think it as number of subarrays ENDING at right will be :"right - left + 1".  (So total number of subarrays ending at 5)
+                 which is at index 1 is right-left +1 i.e., 1-0+1=2  which are {10,5} and {5}
+
+                Explanation: 
+                10, 5
+                ^   ^       = {10, 5}       
+
+                10, 5
+                    ^^      = {5} 
+
+                 As we can see above, let's say left index starts at index 0 and right index is at index 1, 
+                    1st subaray that ends at 5 = {10, 5}
+                 Then, left index is incremented to index 1, and right index stays at index 1  (since right is end ending index)
+                    2nd subarray that ends at 5 = {5}
+                 Hence, total subarrays can be thought of as ENDING in RIGHT INDEX. 
+                 So "right - left + 1" gives us {10, 5} and {5} 
+                
+         */
+        
+
+
+
+
+        /**
+        we check "if k <= 1 return 0" because:
+            if there's no products less than k, return 0 as in NONE (no products) 
+                Example: nums = {1, 2, 3, 4}    k = 1
+                Here, there are no numbers/subarray whose product is less than 1
+
+         */
+        if (k <= 1) {       
+            return 0;
+        }
+
+        int left = 0;
+        int ans = 0;
+        int currProduct = 1;
+
+
+        for (int right = 0; right < nums.length; right++) {
+            currProduct *= nums[right];
+
+            while (currProduct >= k) {
+                currProduct /= nums[left];
+                left++;
+            }
+
+            ans += right - left + 1;
+        }
+
+        return ans;
+
+        
+
+    }
+}

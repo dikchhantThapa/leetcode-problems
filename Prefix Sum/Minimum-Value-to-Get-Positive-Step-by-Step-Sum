@@ -1,98 +1,59 @@
-/*
-Leetcode 1413. Minimum Value to Get Positive Step by Step Sum
+// Leetcode 1413. Minimum Value to Get Positive Step by Step Sum
 
-Given an array of integers nums, you start with an initial positive value startValue.
+class Solution {
+    public int minStartValue(int[] nums) {
+        /**
+        
+        brute force:
+        sort it 
+        take the lowest number, 
+        ans = | lowest no.| + 1 
+            = |-4| + 1
+            = 5  
 
-In each iteration, you calculate the step by step sum of startValue plus elements in nums (from left to right).
+        Optimal solution:
+        find the lowest number, but by using the Math.min method instead 
 
-Return the minimum positive value of startValue such that the step by step sum is never less than 1.
+        -3  2   -3  4   2
+        -3  -1  -4  0   2 
+        
+        find the lowest value, 
 
-Example:
-Input: nums = [1,-2,-3]
-Output: 5
+        if negative, 
+        | -4 | + 1 = 4 + 1 = 5 
 
-Expplanation:
-5 + 1    = 6
-6 + (-2) = 4
-4 + (-3) = 1   
-(1 is the least allowed anywhere in the array)
+        (absolute value)
+        | lowest number | + 1  
 
-*/
-import java.util.*;
-class Main {
-  /*
-  set minValue as 1 
+        if positive, return 1 
 
-  nums[0] += 1
-  
-  for (i to len(nums)):
-    if (total < 1):
-      minValue++
-    total += i    // add each array element to total
+        return -min + 1       // -min is the same as Math.abs(minValue)
 
-  return minValue
+        // --- return statement explanation: 
+          since default min = 0, automatically if there's no negative numbers, 0 will be set as lowest
+          -0 + 1 = 1 (so for any postive numbers, always 1 is returned)
 
-  time  - O(N)
-  space - O(1)
-    
-  */
-  public static void main(String[] args) {
-    int[] nums = {-3, 2, -3, 4, 2};
-    System.out.println(minStartValue(nums));
-  }
+          only for negative numbers, it is changed into absolute value and then 1 is added to it and returned
+          example in the above array, :
+          -(-4) + 1
+          = 4 + 1
+          = 5 
 
-  public static int minStartValue(int[] nums) {
+        O(n) time
+        O(1) space 
+        
+         */
 
-    /*
+        int min = 0; 
+        int total = 0; 
 
-    -3, 2, -3, 4, 2
+        for (int num: nums) {
+            total += num;
+            min = Math.min(min, total);   
+        }
 
-    -3, -1, -4, 0, 2
-    x - 4 = 1 
-    x = 4 + 1
-    x = 5
-    
-    minValue = 0     // to check the lowest value in array
-    total = 0
+        return -min + 1;        // explanation above 
 
-    for (i to len(nums)):
-      total += i 
-      minValue = Math.min(minValue, total)    // check the lowest total 
 
-    //
-    return Abs(minValue) + 1       
-    |-4| = 4 
-    4 + 1 = 5
-
-    
-    ////// alternate way
-    return -minValue + 1
-    -(-4) + 1
-    4 + 1 = 5
-    
-    O(N)
-    O(1)
-    
-    */
-    
-    int minValue = 0;
-    int total = 0; 
-
-    for (int i = 0; i < nums.length; i++) {
-      total += nums[i];
-      minValue = Math.min(minValue, total);
     }
-
-    return -minValue + 1;
-    // -minValue is the same as Math.abs(minValue)
-
-    
-    // for (int num : nums) {
-    //   total += num;
-    //   minValue = Math.min(minValue, total);
-    // }
-    
-    // return Math.abs(minValue) + 1;
-    
-  }
 }

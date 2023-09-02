@@ -1,0 +1,90 @@
+class Solution {
+    public int[] getAverages(int[] nums, int k) {
+            
+        /*
+
+        any number with < k elements to its left = -1
+        any number with > k elements to its left = -1
+        (nums.length - 1 - k)
+        
+        then we take a number, and put k elements on its left, and K elements on its right and take its average
+        in above example, 
+
+        7  4  3  9  1  8  5
+        <--k-->  ^  <--k-->
+
+        Steps:
+        prefix = create prefix sum
+
+        prefix = 7  11  14  23  24  32  37  39  45
+        ans[] = []
+
+                    (last index) - k     will be the last center point
+        upperLimit = (nums.length - 1) - k
+
+        divisor = 2 * k + 1    
+        // k numbers on the left + k numbers on the right + the number itself 
+        = 2 * 3 + 1    (in the above example)
+        = 6 + 1
+        = 7     
+        
+        for (int i = 0; i < nums.length; i++):
+            if (i < k):
+            ans[i] = -1
+            if (i > upperLimit):
+            ans[i] = -1
+
+        // start from k and build the window up to size of array - k
+        for (int i = k; i < i - k; i++):
+            sum = 0     // initialize it for every new sum
+
+            int left = i - k    // left bound
+            int right = i + k   // right bound 
+
+            
+            sum = prefix[right] - prefix[left] + nums[left]
+            ans[i] = sum / divisor    // 37/7 = 5 
+
+
+            return ans           
+        
+        */
+
+
+        long[] prefix = new long[nums.length];
+        int[] ans = new int[nums.length];
+        
+        int divisor = 2 * k + 1;
+
+        // building prefix sum
+        prefix[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            prefix[i] = prefix[i - 1] + nums[i];
+        }
+
+        // actual answer building
+        for (int i = k; i < nums.length - k; i++) {
+            long sum = 0;
+            int left = i - k;
+            int right = i + k; 
+
+            sum = prefix[right] - prefix[left] + nums[left];
+            ans[i] = (int) (sum / divisor);
+        }
+
+
+        // alternate way is to Arrays.fill(-1) in 1st step to fill whole answer array with -1 and only do the above block to change the middle numbers 
+        // setting initial k and ending k values as -1 
+        for (int i = 0; i < nums.length; i++) {
+            if (i < k) {
+                ans[i] = -1;
+            }
+            if (i > nums.length - k - 1) {
+                // this is the right limit
+                ans[i] = -1;
+            }
+        }
+        
+        return ans; 
+    }
+}

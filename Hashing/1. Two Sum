@@ -1,0 +1,25 @@
+// Leetcode 1. Two Sum
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int[] answer = new int[2];
+
+        for (int i = 0; i < nums.length; i++) {
+            int difference = target - nums[i];
+            
+            // 9 - 2  = 7   ans index 1 ( current index )
+            // 9 - 7 = 2    ans index 0 ( get value from HashMap )
+
+
+            if (map.containsKey(difference)) {
+                answer[0] = map.get(difference);   // get value (answer index)
+                answer[1] = i;      // current index
+            }
+
+            map.put(nums[i], i);
+        }
+
+        return answer;
+    }
+}

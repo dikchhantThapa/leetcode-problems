@@ -1,0 +1,30 @@
+// Leetcode 2351. First Letter to Appear Twice
+
+class Solution {
+    public char repeatedCharacter(String s) {
+        /**
+        
+        create a set 
+        if contains character, return it 
+        if doesn't contain, add it to the set 
+
+        answer = 'c'
+
+         */   
+
+        HashSet<Character> set = new HashSet<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char currentChar = s.charAt(i);
+            if (set.contains(currentChar)) {
+                return currentChar;
+            }
+            set.add(currentChar);
+        }
+
+        return ' ';
+
+
+
+    }
+}

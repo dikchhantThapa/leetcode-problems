@@ -13,7 +13,7 @@ class Solution {
         
          */
 
-        HashSet<Integer> set = new HashSet<>();
+        HashSet<Character> set = new HashSet<>();
 
         for (int i = 0; i < sentence.length(); i++) {
             set.add(sentence.charAt(i));

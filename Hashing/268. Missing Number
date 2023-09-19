@@ -1,0 +1,40 @@
+// Leetcode 268. Missing Number
+
+class Solution {
+    public int missingNumber(int[] nums) {
+        /**
+        
+        brute force = check every number + 1 present or not
+
+        Note:
+        * all numbers start from 0 
+        * all numbers are unique 
+
+        optimal:
+        1. save the array into a Set
+        2. check if current "i" is in set or not 
+        (include n, as given in question) 
+        (since 0 is included and 1 number between 0 and n is missing)
+
+        O(n) time
+        O(n) space
+        
+         */
+
+        HashSet<Integer> set = new HashSet<>();
+
+        for (int num : nums) {
+            set.add(num);
+        }
+
+        for (int i = 0; i <= nums.length; i++) {
+            if (!set.contains(i)) {
+                return i;
+            }
+        }
+
+        return -1;  // nothing found
+        
+
+    }
+}

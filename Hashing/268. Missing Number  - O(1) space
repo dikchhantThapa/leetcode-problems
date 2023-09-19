@@ -1,0 +1,40 @@
+// Leetcode 268. Missing Number
+
+class Solution {
+    public int missingNumber(int[] nums) {
+        /**
+        
+        1. Find expected sum (total of the expected array including the missing number)
+        2. Find the actual current sum (current sum which doesn't have the missing number)
+        3. Subtract (Expected Sum - Current sum) to find the missing number
+
+
+        Code:
+        For step 1, can use either prefixSum or Gauss'Formula (sum of array = nums.length * (nums.length + 1) / 2)
+
+        Time:  O(n)
+        Space: O(1)  : only need to store the 2 sums
+        
+         */
+
+
+        // using Gauss' formula 
+        int expectedSum = nums.length * (nums.length + 1) / 2;
+
+        // same time & space col. for preFixSum
+        // int expectedSum = 0;        
+        // for (int i = 0; i <= nums.length; i++) {
+        //     expectedSum += i;
+        // }
+
+        int actualSum = 0;
+        for (int num : nums) {
+            actualSum += num;
+        }
+
+        int answer = expectedSum - actualSum;
+        return answer; 
+
+
+    }
+}

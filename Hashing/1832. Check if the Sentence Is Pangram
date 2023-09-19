@@ -1,0 +1,29 @@
+// Leetcode 1832. Check if the Sentence Is Pangram
+
+class Solution {
+    public boolean checkIfPangram(String sentence) {
+        /**
+        
+        1. create a Set
+        2. add all letters to the Set
+        3. if size of set != 26, false 
+
+        O(n) time
+        O(1) space (since there are at most 26 unique letters we can add)
+        
+         */
+
+        HashSet set = new HashSet<>();
+
+        for (int i = 0; i < sentence.length(); i++) {
+            set.add(sentence.charAt(i));
+        }
+
+        if (set.size() != 26) {
+            return false;
+        }   else {
+            return true;
+        }
+        
+    }
+}

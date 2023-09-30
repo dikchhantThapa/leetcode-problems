@@ -1,0 +1,58 @@
+// Leetcode 2248. Intersection of Multiple Arrays
+
+class Solution {
+    public List<Integer> intersection(int[][] nums) {
+        /**
+        
+        Idea: 
+        create map 
+        key = each number, value = no. of occurences
+
+        check if any value is equal to total nums size:
+            if equal to nums size (means that no. is present in all Arrays):
+                add it to answer
+
+        sort answer List 
+        return answer
+
+
+
+        Example:
+        nums = [[3,1,2,4,5],[1,2,3,4],[3,4,5,6]]
+        nums length = 3 total arrays 
+
+        key value
+        1   2
+        2   2
+        3   3   // ans
+        4   3   // ans
+        5   2
+
+        only numbers 3 and 4  have size 3 (size of nums array = 3)
+        ans = [3, 4]
+
+        
+         */
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        for (int arr[] : nums) {
+            for (int num: arr) {
+                map.put(num, map.getOrDefault(num, 0) + 1);
+            }
+        }
+
+        for (int key : map.keySet()) {
+            if (map.get(key) == nums.length) {
+                ans.add(key);
+            }
+        }
+
+        Collections.sort(ans);
+        return ans;
+        
+
+
+    }
+}

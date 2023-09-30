@@ -1,0 +1,72 @@
+// 1941. Check if All Characters Have Equal Number of Occurrences
+
+class Solution {
+    public boolean areOccurrencesEqual(String s) {
+        /**
+        
+        create map
+        key = each character, value = total occurences 
+
+        1st check the total key of the 1st value, 
+        check if the value is same for all keys 
+
+        --------
+        --------
+
+        alternate way (easier method):
+
+        create map
+        key = each character, value = total occurences 
+
+        create set with all the Values from the map
+        (if all the letters have same value, total size of set will be exactly 1) 
+        (if values are different than 1, it means there are characters with different amount of occurences)
+        
+
+        Example of True case:
+
+        s = "abacbc"
+
+        map
+        a   2
+        b   2
+        c   2
+
+        set = {2}    
+        Since set size = 1, 
+        Ans = true
+
+        ---
+
+        Another example for a False case:
+        
+        s = "aaabb"
+
+        map
+        a   3
+        b   2
+
+        Set = {3, 2}  
+        set size = 2 because all values aren't equal (we need size 1)
+        Ans = False
+
+        
+         */
+
+        HashMap<Character, Integer> map = new HashMap<>();
+        
+        for (char c : s.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+
+        HashSet<Integer> frequencies = new HashSet<>(map.values());
+        if (frequencies.size() == 1) {
+            return true;
+        }   else {
+            return false;
+        }
+
+    
+
+    }
+}

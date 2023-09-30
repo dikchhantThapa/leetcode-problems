@@ -1,0 +1,188 @@
+/*
+Leetcode 340. Given a string s and an integer k, return the length of the longest 
+substring
+ of s that contains at most k distinct characters.
+
+ 
+
+Example 1:
+
+Input: s = "eceba", k = 2
+Output: 3
+Explanation: The substring is "ece" with length 3.
+Example 2:
+
+Input: s = "aa", k = 1
+Output: 2
+Explanation: The substring is "aa" with length 2.
+ 
+
+*/
+
+import java.util.*;
+
+class Main {
+  public static void main(String[] args) {
+    String s = "eceba";
+    int k = 2;
+    System.out.println(lengthOfLongestSubstringKDistinct(s, k));
+  }
+
+
+  public static int lengthOfLongestSubstringKDistinct(String s, int k) {
+    
+    /*
+    k = 2 (2 unique chars allowed)
+    e c e b a
+    ^ ^ ^       ans = 3
+
+    e  c  e  b  a
+    ^^
+    Idea:
+    create a sliding window and Hashmap 
+    store each character and it's total occurence into map as key and value
+    when size of map > k (answer invalid)
+      subtract left most character and reduce its value by 1
+      if any character occurence goes to 0, remove it from the HashMap
+      left++ to go right 
+
+    ans = largest window size
+
+    Test: 
+    e  c  e  b  a
+    ^^ 
+
+    1st
+    e  c  e  b  a
+    ^  ^ 
+    map 
+    key  value 
+    e    1 
+    c    1     size = 2 (good)
+
+
+    2nd
+    e  c  e  b  a
+    ^     ^ 
+    key  value 
+    e    2 
+    c    1     size = 2 (good)
+
+
+    3rd
+    e  c  e  b  a
+    ^        ^ 
+    key  value 
+    e    2 
+    c    1     
+    b    1     size = 3 (bad)
+
+
+
+    4th
+    e  c  e  b  a
+       ^     ^ 
+    key  value 
+    e    1 
+    c    1     
+    b    1     size = 3 (still bad)
+
+
+    5th
+    e  c  e  b  a
+          ^  ^ 
+    key  value 
+    e    1 
+    b    1     size = 2 (good)
+    
+      Here, 
+      c    0     (1 becomes size 0 and deleted)
+
+
+    6th
+    e  c  e  b  a
+          ^     ^ 
+    key  value 
+    e    1 
+    b    1     
+    a    1      size = 3 (bad)
+
+
+
+    7th
+    e  c  e  b  a
+             ^  ^ 
+    key  value 
+    b    1     
+    a    1      size = 3 (bad)
+
+    Here, 
+      e    1     (1 becomes size 0 and deleted)
+
+      
+  Largest recorded window size = [e c e] 
+  So size 3 = answer
+
+    
+    
+
+    Pseudocode: 
+
+    left = 0 
+    create HashMap map 
+
+    if (length of s == 0 or k == 0):
+      return 0
+    
+    for (int right = 0; right < s.length(); right++):
+      map.put(s[right], map.getOrDefault(s[right], 0) + 1)
+      
+      while (map.size > k):
+        map.put(s[left], map.get(s[left]) - 1)
+        if (map.get(s[left]) == 0):
+          map.remove(s[left])
+        left++ 
+
+      ans = max(max, right - left + 1)    
+      // keep track of largest answer window at every step
+
+
+    return ans
+
+
+    
+
+    Time = O(n)
+    Space = O(k)  for size of each window 
+    
+    
+    */
+
+    int left = 0;
+    int ans = 0;
+    HashMap<Character, Integer> map = new HashMap<>();
+
+    if (s.length() == 0 || k == 0) {
+      return 0;
+    }
+
+    
+    for (int right = 0;  right < s.length(); right++) {
+      map.put(s.charAt(right), map.getOrDefault(s.charAt(right), 0) + 1);
+
+      while (map.size() > k) {
+        map.put(s.charAt(left), map.get(s.charAt(left)) - 1);
+        if (map.get(s.charAt(left)) == 0) {
+          map.remove(s.charAt(left));
+        }
+
+        left++;
+      }
+      ans = Math.max(ans, right - left + 1);
+      
+    }
+
+    return ans;
+  
+  }
+}

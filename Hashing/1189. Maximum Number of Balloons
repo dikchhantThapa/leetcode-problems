@@ -1,0 +1,65 @@
+// Leetcode 1189. Maximum Number of Balloons
+
+import java.util.*;
+class Main {
+  public static void main(String[] args) {
+    String text = "loonbalxballpoon";
+    System.out.println(maxNumberOfBalloons(text));
+  }
+  
+  public static int maxNumberOfBalloons(String text) {
+    /*
+
+    balloon
+
+    balloon    Suppose character = x, Potential occurence
+    b  -  1      x / 1 = x
+    a  -  1      x / 1 = x             
+    l  -  2      x / 2 = x / 2
+    o  -  2      x / 2 = x / 2
+    n  -  1      x / 1 = x
+    (Minimum potential occurence of each will be the answer)
+
+    Steps: 
+
+    1. int[] with 26 chars (total letters in the alphabet) 
+    2. for every element, in String, increment its total in the int[] ---> (char - 'a')++
+    3. Since all letters except l and o only occur once, we check total occurence by:
+      check LEAST among all letters (and x/2 (total occurence/ 2) for l and o)
+
+
+    index number: 
+      b = 1
+      a = 0
+      l = 11 
+      o = 14
+      n = 13
+
+    ----- 
+    
+    Time - O(N)
+    Space - O(1)
+    
+    */
+
+    if (text.length() < 7) {
+      return 0;
+    }
+
+    int[] charCount = new int[26];
+    for (char c : text.toCharArray()) {
+      charCount[c - 'a']++;
+    }
+
+    int ans = charCount[1];                   // b
+    ans = Math.min(ans, charCount[0]);        // a
+    ans = Math.min(ans, charCount[11] / 2);   // l
+    ans = Math.min(ans, charCount[14] / 2);   // o
+    ans = Math.min(ans, charCount[13]);       // n
+    
+    return ans;
+
+    
+    
+  }
+}

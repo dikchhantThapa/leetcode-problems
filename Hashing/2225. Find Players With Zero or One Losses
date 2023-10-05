@@ -1,0 +1,108 @@
+// Leetcode 2225. Find Players With Zero or One Losses
+
+import java.util.*;
+
+class Main {
+  public static void main(String[] args) {
+    int[][] matches = {{1,3},{2,3},{3,6},{5,6},{5,7},{4,5},{4,8},{4,9},{10,4},{10,9}};
+    System.out.println(findWinners(matches));
+  }
+
+  public static List<List<Integer>> findWinners(int[][] matches) {
+  
+    /**
+    
+    Suppose
+    matches = [[1,3],[2,3],[3,6],[5,6],[5,7],[4,5],[4,8],[4,9],[10,4],[10,9]]
+
+    hashmap 1 (winner)
+    1   1
+    2   1
+    3   1
+    4   2
+    5   2
+    10  2
+
+    hashmap 2 (loser)
+    3   2
+    4   1   //
+    5   1   //
+    6   2
+    7   1   //
+    8   1   // 
+    9   2
+
+
+    return [list of NOT LOST ANY matches][list of LOST EXACTLY ONE match]
+         = [1, 2, 10][4, 5, 7, 8]
+
+    
+    ----------
+    Idea:
+
+    1. create WinnerMap with all winners (all index 0 from question) (Key = number, Value = occurences)
+    2. create LoserMap with all losers   (all index 1 from question)  (Key = number, Value = occurences)
+    3. create a list for answer 
+    4. for Answer subarray 0:
+        check each key from WinnerMap with key in LoserMap:
+            if key from WinnerMap doesn't exist in LoserMap --> store Key into subarray 0 
+            (we ignore winners that are also losers so no need for any code here)
+    5. for Answer subarray 1:
+        check all numbers with 1 as their Key:
+            store Key into subarray 1 
+    6. Sort both  --> time col goes to O(n logn)
+    7. And add them to Answer, return answer
+
+    ----------
+
+    Time - O(n logn)
+    Space - O(n)
+    
+     */
+
+    HashMap<Integer, Integer> winnerMap = new HashMap<>();
+    HashMap<Integer, Integer> loserMap = new HashMap<>();
+
+    for (int[] number : matches) {
+      int indexZero = number[0];
+      int indexOne = number[1];
+      winnerMap.put(indexZero, winnerMap.getOrDefault(indexZero, 0) + 1);
+      loserMap.put(indexOne, loserMap.getOrDefault(indexOne, 0) + 1);
+    }
+
+    // System.out.println(winnerMap);
+    // System.out.println(loserMap);
+
+    ArrayList<List<Integer>> ans = new ArrayList<>();
+    ArrayList<Integer> ans0 = new ArrayList<>();  // 
+    ArrayList<Integer> ans1 = new ArrayList<>();
+
+    for (int key : winnerMap.keySet()) {
+      if (!loserMap.containsKey(key)) {
+          ans0.add(key);
+      }
+    }
+
+    for (Map.Entry<Integer, Integer> entry : loserMap.entrySet()) {
+      if(entry.getValue() == 1) {
+          int key = entry.getKey();
+          ans1.add(key);
+      }
+    }
+
+    // System.out.println(ans0);
+    // System.out.println(ans1);
+
+    Collections.sort(ans0);
+    Collections.sort(ans1);
+
+    ans.add(ans0);
+    ans.add(ans1);
+
+    return ans;
+
+
+    
+  }
+  
+}

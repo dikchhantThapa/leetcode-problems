@@ -1,0 +1,85 @@
+// Leetcode 49. Group Anagrams
+
+import java.util.*;
+class Main {
+  public static void main(String[] args) {
+    String[] strs = {"eat", "tea", "tan", "ate", "nat", "bat"};
+    System.out.println(groupAnagrams(strs));
+  }
+
+  public static List<List<String>> groupAnagrams(String[] strs) {
+    
+    /* 
+
+      ["eat","tea","tan","ate","nat","bat"]
+      
+      return List<List<String>> 
+
+      eat --> e, a, t --> a, e, t  "aet"
+      tea --> t, e, a --> a, e, t  "aet" 
+      tan --> t, a, n --> a, n, t  "ant"
+      ate --> a, t, e --> a, e, t  "aet"
+      nat --> n, a, t --> a, n, t  "ant"
+      bat --> b, a, t --> a, b, t  "abt"
+
+        aet = eat, tea, ate
+        ant = tan, nat
+        abt = bat
+        
+      
+      sort(strs)
+      aet, aet, ant, aet, ant, bat
+      
+      key     value (list of Strings)
+      aet --> eat, tea, ate
+      ant --> tan,nat 
+      bat --> bat 
+      
+      list 
+      
+    ---------------
+    
+      Idea: 
+      1. Convert Strings into characters
+      2. Sort characters and convert it into Sorted Strings
+      3. Store the sorted string into a HashMap (key --> sorted string, value --> original string that it corresponds to)
+      4. Iterate through the HashMap and retrieve the value
+      5. Store the Values into a List and return the list 
+
+    ---------------
+
+    Time - O(n.m.logm)
+    Space - O(n.m)
+
+    */  
+
+    Map<String, List<String>> map = new HashMap<>();
+    for (String input : strs) {
+      char[] characters = input.toCharArray();   // eat --> e, a, t 
+      Arrays.sort(characters);                   // a, e, t
+      String sortedString = new String(characters);    // "aet" 
+
+      if (!map.containsKey(sortedString)) {                // if not already there, initialize it 
+        map.put(sortedString, new ArrayList<String>());    // creating an empty space to add Strings in next line  
+      }
+      map.get(sortedString).add(input);    // add Strings to the Value associated with Sorted String Key  
+    }
+
+    // Key  Value
+    // aet  eat, tea, ate 
+    // ant  tan, nat
+    // bat  bat 
+
+    return new ArrayList(map.values());      // can just return Answer instead of initializing and storing into ans variable like below 
+    // List<List<String>> ans = new ArrayList<>();  // store answer
+    // // Iterating through HashMap and adding values to my final answer list
+    // for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+    //   ans.add(entry.getValue());
+    // }
+
+    // return ans;
+
+  }
+
+  
+}

@@ -1,0 +1,112 @@
+// Leetcode 2260. Minimum Consecutive Cards to Pick Up
+
+import java.util.*;
+class Main {
+  public static void main(String[] args) {
+    int[] cards = {3, 4, 2, 3, 4, 7};
+    System.out.println(minimumCardPickup(cards));
+  }
+
+    public static int minimumCardPickup(int[] cards) {
+      
+      /**
+      
+      in other words, find the smallest subarray with repeating numbers 
+
+      ------------------
+
+      Idea: 
+
+      cards = [3, 4, 2, 3, 4, 7]
+      Smalles size = 4 (repeating 3 and 4 both have lowest subarray length 4)
+
+      3   4   2   3   4   7
+      ^           ^   
+
+      Map
+      key = element
+      value = all indices that paticular number appears at  (store in a list)
+
+      key value
+      3   0, 3        
+      4   1, 4
+      2   2
+      7   5
+
+      compare size of Subarray 
+      size of the window/subarray = (right - left + 1)
+      (example, distrance from 0 to 3 = 3 - 0 + 1 = 4,
+      another example: 4 - 1 + 1 = 4) 
+
+      Then compare the length of all subarrayy and return the lowest subarray
+
+      ------------------
+      ------------------
+
+      Note:
+      A way to optimize: 
+      Instead of Storing ALL indices, store ONLY the most recent index for each no. 
+      And save the lowest number into Ans variable simultaneously 
+
+      key value
+      3   3    
+      4   4
+      2   2
+      7   5
+
+      ans = Min(max int value, current lowest subarray size)  
+      For 3 we get:
+      ans = Min(infinity, (3 - 0 + 1) = 4 )
+          = 4
+
+
+      For 4 we get:
+      ans = Min(4, 4 - 1 + 1 = 4)
+          = 4
+
+
+      ------------------
+      ------------------
+
+      Pseudocode:
+
+      Creat Map  with Integer, Integer
+      set ans = Max INTEGER value  (because if any low subarray shows up it will be the lowest no. = ans)
+
+      for[0 to len(cards)]:
+          num = cards[i]
+          if (key exists):
+              Ans = Min(ans, currentIndex - lastIndex + 1)    
+          map.put(num, i)     // need to do this step regardless of we find key or not
+              // updating map (if no key add key with no., value with latest index, if yes key update value with latest index) 
+
+      return ans
+
+
+      ------------------
+      ------------------
+
+      Time - O(n)
+      Space - O(n)
+
+       */
+
+      HashMap<Integer, Integer> map = new HashMap<>();
+      int ans = Integer.MAX_VALUE;
+
+      for (int i = 0; i < cards.length; i++) {
+        int num = cards[i];
+        if (map.containsKey(num)) {
+          ans = Math.min(ans, i - map.get(num) + 1);
+        }
+        map.put(num, i);
+      }
+
+      if (ans == Integer.MAX_VALUE) {
+        return -1;
+      }
+
+      return ans;
+
+    }
+}

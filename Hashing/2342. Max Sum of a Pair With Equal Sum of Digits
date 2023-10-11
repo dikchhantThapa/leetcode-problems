@@ -1,0 +1,190 @@
+// Leetcode 2342. Max Sum of a Pair With Equal Sum of Digits
+
+import java.util.*;
+
+class Main {
+  public static void main(String[] args) {
+    int[] nums = {18, 43, 36, 13, 7};
+    // int[] nums = {18, 43, 36, 13;
+    // int[] nums = {18};
+    // int[] nums = {4, 6, 10, 6};
+    System.out.println(maximumSum(nums));
+  }
+
+  public static int maximumSum(int[] nums) {
+    
+    /**
+
+    1st thought 
+    
+    [18, 43, 36, 13, 7]
+    1 + 8 = 9
+    3 + 6 = 9 
+    18 + 36 = 54 
+    
+    18 
+    digitA = 18 / 10 = 1
+    digitB = 18 % 10 = 8
+    
+    digitA + digitB = 1 + 8 = 9 
+
+
+    map
+    key     value(sum of digit)
+    
+    18      9
+    43      7
+    36      9
+    13      4
+    7       7
+
+    iterate through the Values of the map and find the Highest number (9 in our example)
+    
+    copy all of the Keys with value 9 into a list
+    highest = 18, 36
+
+    To find the maximum of nums[i] + nums[j], need to find the 2 highest numbers 
+    Sort(highest) and take the last 2 numbers  (or Reverse sort and take 0th and 1th index no.)
+    = 18, 36 
+
+    ans = add the last 2 numbers of this (highest) array
+
+    ----------
+
+    Time - O(n logn)
+    Space - O(n)
+
+
+    ==========================================================
+
+    Optimized: 
+
+    Suppose nums = [18, 43, 36, 13, 7]
+
+    ans = -1
+    Create a map
+      key = total of digit 
+      value = each number
+
+    for (num : nums):
+      find digitSum
+
+      if (map.containsKey(digitSum)):
+        previousNum = map.get(digitSum)   // keep this in temp. memo for Sum calculation 
+        ans = max(ans, previousNum + num) // 54
+        map.put(digitSum, max(previousNum, num))  // put the largest no. in array as value
+      else:
+        map.put(digitSum, num)  // if no key in map initialize new digitSum with its no. 
+        
+    return ans
+    
+    -----------
+      
+    map in the end 
+    key  value
+    7    43  (7 lower so no longer needed)
+    9    36  (18 lower no longer needed, but we calculate 18 + 36 for max value)
+    4    13
+  
+    -------------
+    -------------
+
+    Time = O(N)
+    Space = O(N)
+
+
+     */
+
+    int ans = -1;
+    HashMap<Integer, Integer> map = new HashMap<>();
+    
+
+    for (int num : nums) {
+      // find digitSum
+      int digitSum = getDigitSum(num);
+
+      if (map.containsKey(digitSum)) {
+        int previousNum = map.get(digitSum);
+        ans = Math.max(ans, previousNum + num);
+        map.put(digitSum, Math.max(previousNum, num));
+      }  else {
+        map.put(digitSum, num);
+      }
+      
+    }
+    return ans;
+    
+  }
+
+  public static int getDigitSum(int num) {
+    /*
+
+    1234 % 10 = 
+    1234 / 10 = 
+
+    while (num > 0):
+      // 1st 
+      digitSum = digitSum + num % 10  
+               = 0 + 1234 % 10 
+               = 0 + 4 
+               = 4
+               
+      num = num / 10
+          = 1234 / 10
+          = 123 
+
+
+      // 2nd
+      digitSum = digitSum + num % 10
+               = 4 + 123 % 10
+               = 4 + 3
+               = 7
+               
+      num = num / 10
+          = 123 / 10
+          = 12
+
+
+      // 3rd
+      digitSum = digitSum + num % 10
+               = 7 + 12 % 10
+               = 7 + 2
+               = 9
+
+      num = num / 10
+          = 12 / 10
+          = 1
+
+
+      // 4th
+      digitSum = digitSum + num % 10
+               = 9 + 1 % 10
+               = 9 + 1
+               = 10
+
+      num = num / 10
+          = 1 / 10
+          = 0
+
+    
+    */
+    
+    int digitSum = 0;
+    
+    while (num > 0) {
+      digitSum += num % 10;   // add remainder in every step 
+      num /= 10;    // divide until we reach 0 
+
+    }
+    // System.out.println(digitSum);
+    return digitSum;
+  }
+
+  // digitSum = 0 + 18 % 10 = 8
+  // num / 10 = 18 / 10 = 1 
+
+  // digitSum = 8 + 1 % 10 = 8 + 1 = 9
+  // num / 10 = 1 / 10 = 0 
+  
+
+}

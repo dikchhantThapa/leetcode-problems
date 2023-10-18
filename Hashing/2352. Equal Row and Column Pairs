@@ -1,0 +1,103 @@
+// Leetcode 2352. Equal Row and Column Pairs
+
+import java.util.*;
+
+class Main {
+  public static void main(String[] args) {
+    // int[][] arr = {{3, 2, 1}, {1, 7, 6}, {2, 7, 7}};
+    int[][] arr = {{3,1,2,2},{1,4,4,5},{2,4,2,2},{2,4,2,2}};
+    System.out.println(equalPairs(arr));
+  }
+
+  public static int equalPairs(int[][] grid) {
+      /**
+
+      n x n matrix        (return row, column)
+
+      x   x   x
+      x   x   x
+      x   x   x
+
+      ---------
+
+      Idea: 
+
+      function:
+          Convert Ints into a String so we can compare 
+
+      make 2 maps --> 
+          1. Row Map  (all row numbers)
+          2. Column Map  (all column numbers)
+
+      row map:
+          key = numbers, value = occurences
+
+      column map:
+          key = numbers, value = occurences
+
+      if same keys occur in Row and Column:
+          ans += ((row VALUE aka row total occurences) * (column VALUE aka column total occurences))
+
+      return ans
+
+      ---------
+
+      Time:  O(n^2) 
+      Space: O(n^2) if all rows and columns are unique worst case
+
+
+       */
+
+      Map<String, Integer> map1 = new HashMap<>();    // row
+      Map<String, Integer> map2 = new HashMap<>();    // column
+
+      // row Map
+      for(int[] row : grid) {
+          String key = convertedString(row);  // 3,2,1
+          map1.put(key, map1.getOrDefault(key, 0) + 1);
+      }
+
+      // column Map
+      for (int i = 0; i < grid.length; i++) {
+          int[] currentCol = new int[grid.length];    
+
+          for (int j = 0; j < grid.length; j++) {
+              currentCol[j] = grid[j][i]; // j = col, i = row 
+              /**
+              3, 0, 0
+              3, 1, 0
+              3, 1, 2 // this is last seen, so this gets saved to current currCol[j]
+                      // then we move to the next index of the row
+
+              and so on..
+
+              currentCol[0] = 3, 1, 2
+              currentCol[1] = 2, 7, 7
+              currentCol[2] = 1, 6, 7
+               */
+              String key = convertedString(currentCol);
+              map2.put(key, 1 + map2.getOrDefault(key, 0)); 
+          }
+      }
+
+      int ans = 0;
+      for (String key : map1.keySet()) {
+          ans += map1.get(key) * map2.getOrDefault(key, 0);
+          // if same Key found in both Maps, Multiply their Values otherwise add 0 
+      }
+
+      return ans;
+
+  }
+
+  public static String convertedString(int[] arr) {
+      StringBuilder converted = new StringBuilder();
+      for (int i = 0; i < arr.length; i++) {
+          converted.append(arr[i]);
+          converted.append(",");    // append "," to the string so numbers don't add 
+      }
+      return converted.toString();
+  }
+    
+  
+}

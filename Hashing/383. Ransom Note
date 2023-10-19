@@ -1,0 +1,89 @@
+// Leetcode 383. Ransom Note
+
+class Main {
+  public static void main(String[] args) {
+    String ransomNote = "aa";
+    String magazine = "aab";
+    
+    System.out.println(canConstruct(ransomNote, magazine));
+  }
+
+  public static boolean canConstruct(String ransomNote, String magazine) {
+
+    /*
+
+    Requirement - ransomNote CAN be constructed using magazine = true 
+                                                      
+    
+    ransomNote = "aa",  magazine = "aab"
+    Output: true
+
+    -----
+
+    Idea:
+
+    if (magazine < ransomNote):      // not enough chars
+      return false 
+
+    int[] chars = new int[26]    // all chars 
+
+    magazine into chars array: 
+      increment letter by 1 if any letter occurs 
+
+    ransomNote remove from chars aray:
+      decrement letter by 1 if any letter occurs 
+
+    traverse through chars array and if there's any remaining char with value < 0, return false
+    else return true
+
+    ------
+
+    Example:
+    1. 
+    ransomNote = "aa",  magazine = "aab"
+        chars[] = [..., 1, ...]  // true
+
+    2. 
+    ransomNote = "a",   magazine = "b"
+        a = -1 , b = 1
+        chars[] = [-1, 1, ..... ]    // false  
+
+    3.
+    ransomNote = "a",   magazine = "a"
+        chars[0, ...]     // true 
+  
+    ------
+
+    Time : O(m)  where m is length of magazine (magazine is always same length or longer than n if true)
+    Space : O(1)
+
+    
+    */
+
+    if (magazine.length() < ransomNote.length()) {
+      return false;
+    }
+
+    int[] chars = new int[26];
+
+    // insert magazine into chars
+    for (char character : magazine.toCharArray()) {
+      chars[character - 'a']++;
+    }
+
+    // remove ransomNote from chars 
+    for (char character : ransomNote.toCharArray()) {
+      chars[character - 'a']--;
+    }
+
+    for (int num : chars) {
+      if (num < 0) {
+        return false;
+      }
+    }
+
+    return true;
+
+    
+  }
+}

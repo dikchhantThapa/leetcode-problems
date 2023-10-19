@@ -1,0 +1,83 @@
+// Leetcode 771. Jewels and Stones
+
+import java.util.*;
+
+class Main {
+  public static void main(String[] args) {
+    String jewels = "aA";
+    String stones = "aAAbbbb";
+    System.out.println(numJewelsInStones(jewels, stones));
+  }
+  
+  public static int numJewelsInStones(String jewels, String stones) {
+
+    /**
+    
+    stones = my stones
+    
+    ----
+    
+    1st Idea: 
+    
+        ans = 0
+        Create a map - Character, Integer
+            key = each stone, value = total occurence
+    
+        Create a set to store Characters of Jewels (can use Set because jewels are only unique)
+    
+        if (my stone in jewels):
+            ans += value of my stone 
+    
+        return ans
+    
+        --
+    
+        Time - O(n + m)         // m = characters in jewels, n = characters in stones
+        Space - O(n + m)
+    
+    
+    ------------------------
+    ------------------------
+    
+    Another Idea:
+    
+        ans = 0
+        Create a Set:
+            store all Characters of Jewel to set (can use Set because jewels are given to be unique)
+    
+        if (char in stones found in jewel Set):
+            ans++
+    
+        return ans
+    
+        ---
+    
+        Time - O(n + m)     // n = jewel, m = stones 
+        Space - O(n)        // O(n) = store length of jewel characters 
+                            // could even consider O(1) space col. for this, because there are only 26 unique characters in the alphabet
+    
+    
+    
+    */
+
+
+    int ans = 0;    // store ans
+    
+    // jewels
+    HashSet<Character> set = new HashSet<>();
+    for (char jewel : jewels.toCharArray()) {
+      set.add(jewel);
+    }
+
+    // if stone found, add it to ans 
+    for (char stone : stones.toCharArray()) {
+      if (set.contains(stone)) {
+        ans++;
+      }
+    }
+
+    return ans;
+
+
+  }
+}

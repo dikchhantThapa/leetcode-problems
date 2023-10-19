@@ -1,0 +1,58 @@
+// Leetcode 2352. Equal Row and Column Pairs 
+
+import java.util.*;
+
+class Main {
+  public static void main(String[] args) {
+    int[][] arr = {{3,1,2,2},{1,4,4,5},{2,4,2,2},{2,4,2,2}};
+    System.out.println(equalPairs(arr));
+  }
+
+  public static int equalPairs(int[][] grid) {
+    /*
+
+    Idea:
+
+    count = 0
+    Create map
+    
+    Key = row numbers (in String), Value = occurences 
+
+    if each column(converted into String) occurs in Map:
+      add count
+
+    return count
+
+    --------
+
+    Time = O(n^2)
+    Space = O(n^2)
+    
+    */
+
+    int count = 0;
+    HashMap<String, Integer> rowMap = new HashMap<>();
+
+    // row Map
+    for (int[] row : grid) {
+      String rowString = Arrays.toString(row);
+      rowMap.put(rowString, 1 + rowMap.getOrDefault(rowString, 0));
+    }
+
+    // check if column is round in row, if found add count
+    for (int i = 0; i < grid.length; i++) {
+      int[] colArray = new int[grid.length];
+
+      for (int j = 0; j < grid.length; j++) {
+        colArray[j] = grid[j][i];      // j = column, i = row
+      }
+
+      count += rowMap.getOrDefault(Arrays.toString(colArray), 0);
+      // if found, add. If not found, add 0 
+    }
+
+    return count;
+
+  }
+  
+}

@@ -1,0 +1,74 @@
+// Leetcode 3. Longest Substring Without Repeating Characters
+
+import java.util.*;
+class Main {
+  public static void main(String[] args) {
+    // String s = "pwwkew";
+    // String s = " ";
+    // String s = "au";
+    String s = "abcabcbb";
+    System.out.println(lengthOfLongestSubstring(s));
+  }
+
+  public static int lengthOfLongestSubstring(String s) {
+    
+    /**
+    
+    s = a b c a b c b b
+        ^   ^
+
+    Idea:
+
+    create a set 
+    create 2 pointers, check if duplicates occur:
+      if right pointer in set(duplicate char occurs):
+        remove left pointer
+        left++    // move left up by 1 
+      add right pointer to set   // since no more duplicates, add right char
+      ans = longest subarray length 
+
+    return ans
+    
+    -----------
+    
+    Pseudocode: 
+
+    left = 0
+    ans = 0
+    create a Set 
+
+    for (right = 0; right < len(s); right++):
+      while (s[right] in set):
+        set.remove(s[left])    // remove left character
+        left++                // increment left pointer by 1
+      set.add(s[right])
+      ans = max(ans, right - left + 1)
+
+    return ans
+
+    -----------
+
+    Time = O(n)
+    Space = O(n)
+    
+    
+     */
+
+    Set<Character> set = new HashSet<>();
+    int left = 0;
+    int ans = 0;
+
+    for (int right = 0; right < s.length(); right++) {
+      while (set.contains(s.charAt(right))) {
+        set.remove(s.charAt(left));
+        left++;
+      }
+      set.add(s.charAt(right));
+      ans = Math.max(ans, right - left + 1);
+    }
+
+    return ans;
+
+    
+  }
+}

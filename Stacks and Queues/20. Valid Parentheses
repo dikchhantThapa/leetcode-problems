@@ -1,0 +1,91 @@
+// Leetcode 20. Valid Parentheses
+
+import java.util.*;
+class Main {
+  public static void main(String[] args) {
+    String s = "([{}])";
+    System.out.println(isValid(s));
+  }
+  
+  public static boolean isValid(String s) {
+    
+    /*
+
+    Examples: 
+    1. s = "()[]{}"  // true
+    2. s = "([{}])"  // true
+    3. s = "(]"      // false 
+    
+    -----------------------------------
+    2. 
+    
+    Example of stack: 
+    
+      s = "( [ { } ] )"
+  
+      stack = 
+      {
+      [
+      (
+
+      now closing appears, real calculation starts
+
+    -----------------------------------
+
+    Idea:
+
+    
+    Create a map:
+    key  value
+    )    (
+    }    {
+    ]    [
+        
+    Create a Stack
+
+    for char in string: 
+      if closing parantheses appears:
+        if stack != null && stack.peek == matching opening parantheses(check key in map): 
+          stack.pop 
+        else:
+          return false 
+      else:   // opening paranthes apprears
+        stack.push
+
+    return stack.empty()  
+    // if empty true = all conditions met
+    // if not empty false 
+    
+
+    -----------------------------------
+
+    Time - O(n)
+    Space - O(n)
+
+    */
+
+    HashMap<Character, Character> map = new HashMap<>();
+    map.put(')', '(');
+    map.put('}', '{');
+    map.put(']', '[');
+   
+    Stack<Character> stack = new Stack<>();
+
+    for (char c : s.toCharArray()) {
+      if (map.containsKey(c)) {    // closing parantheses
+        if (!stack.isEmpty() && stack.peek() == map.get(c)) {
+          stack.pop();
+        }  else {
+          return false;
+        }
+      }  else {    // opening parantheses 
+        stack.push(c);
+      }
+    }
+
+    return stack.empty();
+
+
+    
+  }
+}

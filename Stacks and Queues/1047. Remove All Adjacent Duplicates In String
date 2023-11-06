@@ -1,0 +1,54 @@
+// Leetcode 1047. Remove All Adjacent Duplicates In String
+
+import java.util.*;
+class Main {
+  public static void main(String[] args) {
+    // String s = "abccba";
+    // String s = "a";
+    String s = "abccbaddd";
+    System.out.println(removeDuplicates(s));
+  }
+  
+  public static String removeDuplicates(String s) {
+    
+    /*
+
+    s = "abccba"  // remove c
+      = "abba"    // remove b
+      = "aa"      // remove a
+      = " "       // output
+
+    -------------
+    
+    Idea:
+
+    StringBuilder stack    // namesake stack for visualization 
+    Iterate over chars in String:
+      if char found in top of stack: 
+        pop 
+      else:
+        push 
+
+    return remaining string 
+
+    -------------
+
+    Time - O(n) 
+    Space - O(n)
+    
+    
+    */
+
+    StringBuilder sb = new StringBuilder();
+    for (char c : s.toCharArray()) {
+      if (sb.length() > 0 && sb.charAt(sb.length() - 1) == c) {  // current last/"top" element
+        sb.deleteCharAt(sb.length() - 1);  // remove that char
+      }  else {
+        sb.append(c);
+      }
+    }
+
+    return sb.toString();
+  }
+  
+}

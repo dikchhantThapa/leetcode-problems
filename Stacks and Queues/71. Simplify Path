@@ -1,0 +1,103 @@
+// Leetcode 71. Simplify Path
+
+import java.util.*;
+class Main {
+  public static void main(String[] args) {
+    // String path = "/../";             // expected ans = "/"
+    String path = "/home//foo/";         // expected ans = "/home/foo"
+    System.out.println(simplifyPath(path));
+  }
+
+  public static String simplifyPath(String path) {
+    /*
+    
+    From requirements: 
+
+    Meanings to remember:
+      '.'  - current directory
+      '..' - a directory up a level
+
+    1. if multiple '/' appears, remove rest and leave only one '/'
+    2. if string ends with '/' remove it 
+    3. if string contains '.' or '..' remove them 
+
+    Note:
+    * if double dots '..' appears, we remove the top most stack (going up 1 level) 
+
+
+    Summary: 
+    1. ".." = pop
+    2. /name = push 
+
+    -------------------
+
+    Pseudocode:
+
+    new stack            
+    new StringBuilder  ans          // building answer 
+    string[] p = split path("/")   // split string to only directories (skip "/")
+
+    for (String dir : p):
+      if (stack != empty && dir.equals("..")):
+        pop
+      else if (dir != empty && dir != (".") && dir != ("..")):
+        stack.push(dir)
+
+    if (stack empty):
+      return "/"
+
+    while (!stack.empty):         // until stack is cleared
+      pop element into 0th index  // into StringBuilder in reverse
+      insert "/" into 0th index   // insert "/" in front of every directory 
+
+              // example of this block:   
+                    Suppose stack     -->   1  2  3  (if we pop normally, string would become "3 2 1 "), but we do:
+                    pop 3 into 0      --> ans = "3"
+                    insert "/" into 0 --> ans = "/3"
+  
+                    pop 2 into 0      --> ans = "2/3"
+                    insert "/" into 0 --> ans = "/2/3"
+  
+                    pop 1 into 0      --> ans = "1/2/3"
+                    insert "/" into 0 --> ans = "/1/2/3"
+
+    return ans.toString
+
+    -------------------
+
+    Time - O(n)
+    Space - O(n)
+      
+    */
+
+    Stack <String> stack = new Stack();
+    StringBuilder ans = new StringBuilder();
+    String[] p = path.split("/");
+
+    for (String dir : p) {
+      if (!stack.isEmpty() && dir.equals("..")) {
+        stack.pop();
+      }  else if (!dir.equals("") && !dir.equals(".") && !dir.equals("..")) {
+        stack.push(dir);
+      }
+    }
+
+    if (stack.isEmpty()) {
+      return "/";
+    }
+
+    while (!stack.isEmpty()) {
+      // keep inserting into 0th index, so that stack pop is inserted in reverse 
+      ans.insert(0, stack.pop());    
+      ans.insert(0, "/");
+      // insert "/" before every directory (works perfectly for setting up 1st "/" required in simplified path(answer) as well)
+    }
+
+    return ans.toString();
+  
+    
+  }
+
+
+  
+}

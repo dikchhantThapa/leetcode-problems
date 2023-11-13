@@ -1,0 +1,131 @@
+// Leetcode 2300. Successful Pairs of Spells and Potions
+
+import java.util.*;
+class Main {
+  public static void main(String[] args) {
+    int[] spells = {5, 1, 3};
+    int[] potions = {1, 2, 3, 4, 5};
+    long success = 7;
+    System.out.println(Arrays.toString(successfulPairs(spells, potions, success)));
+    
+  }
+
+  public static int[] successfulPairs (int[] spells, int[] potions, long success) {
+    /*
+
+    Understand:
+
+    Brue force:
+    
+      create an array[size n] pairs   --> n = len(spells) stores the answer 
+      create an array[size m] product  --> m = len(potions)  stores each product 
+  
+      product[..] stores each multiplied value of spells[i] * potions[j]
+      check how many product[..] are >= success:
+        store amount of ">= success" into pairs[current i]  
+  
+      return pairs[] 
+
+
+    Time - O(n * m)
+    Space = O(max(n, m))
+
+    very slow 
+    
+    ------------------------
+    ------------------------
+    
+    Binary search: 
+
+    Sort potions 
+    (if we find a product >= success, we don't need to check again and again because that number and all numbers after it will be larger than success)
+    (just need to count valid window size and append it to the answer) 
+
+    n = len(spells)
+    m = len(potions)
+
+    ans = new int[n]      // ans size = size of n 
+
+    for (i = 0; i < len(n); i++):
+      left = 0
+      right = m - 1       // last number of potions 
+
+      while (left <= right):
+        mid = left + (right - left) / 2
+
+        current = spells[i] * potion[mid] 
+        if (current >= success):
+           right = mid - 1
+        else:
+          left = mid + 1
+
+      ans[i] = m - left       // stores each window size 
+
+    return ans 
+
+      
+    --
+    Rationale behind "ans[i] = m - left":
+      (All we are doing is finding the window size by subtracting left index
+      from the last index of potions to find the window)
+
+      Normal Window size = right - left + 1   (when both right and left are indexes)
+      But m = size (it's not an index)
+      So, window size = (m - 1) - left + 1 
+                      = m - 1 - left + 1
+                      = m - left 
+
+      Test: 
+  
+      potions size = 5   
+      left = index 1
+      
+      5 * [1,2,3,4,5] = [5,10,15,20,25]      when success = 7 
+                            ^  ^  ^  ^
+      
+      window size = m - left 
+                  = 5 - 1
+                  = 4 (correct)
+
+     
+    ------------------------
+    ------------------------
+
+    Time - O(max(n logn, m logm)) or O(nlogn + mlogm)    // same 
+    Space - O(max(n, m)) or O(n + m)
+    
+
+    */
+
+    int n = spells.length;
+    int m = potions.length;
+    
+    int[] pairs = new int[n];
+    Arrays.sort(potions);
+
+    for (int i = 0; i < n; i++) {
+      int left = 0;
+      int right = m - 1; 
+
+      while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        // int current = spells[i] * potions[mid];    // need long 
+        
+        long current = (long) spells[i] * potions[mid];
+        
+        if (current >= success) {
+          right = mid - 1; 
+        }  else {
+          left = mid + 1;
+        }
+      }
+      pairs[i] = m - left;
+    
+    }
+
+    return pairs;
+    
+  }
+ 
+}

@@ -1,0 +1,114 @@
+// Leetcode 74. Search a 2D Matrix
+
+class Main {
+  public static void main(String[] args) {
+    int[][] matrix = {{1, 3, 5, 7},
+                     {10, 11, 16, 20},
+                     {23, 30, 34, 60}};
+    int target = 3;
+    System.out.println(searchMatrix(matrix, target));
+  }
+
+  public static boolean searchMatrix(int[][] matrix, int target) {
+    /*
+
+    Requirements: O(log(m * n)) time complexity
+    Return True if target found, False if target not found 
+
+    -----
+    
+    Idea: 
+    
+    Since the the whole data is sorted, treat the whole matrix as a 1D array   
+    Given: 
+    1, 3, 5, 7,
+    10, 11, 16, 20, 
+    23, 30, 34, 60
+
+    (only for easier thinking will be): 
+    1, 3, 5, 7, 10, 11, 16, 20, 23, 30, 34, 60
+
+
+    m = matrix.len (Total matrices)   // in above example = 3
+    n = matrix[0].len (Total individual numbers inside each row)    // above example = 4
+    // m = total rows, n = total elements per row(total columns) 
+
+    left = 0
+    right = m * n - 1     // since total matrix elements = m * n = 3 * 4 = 12 total items
+    // right = m * n - 1 = 12 - 1 = 11 th index 
+
+    while (left <= right):
+      mid = left + (right - left) / 2
+      row = mid / n         // this will give the current row for current mid 
+          Explanation:
+
+            In the 1st run, mid = 0 + (11 - 0) /  2 = element 5 (number 11)
+            (in a dream world with 1 D array, but for 2D array we need to find row and column first):
+            
+            So with mid in element 5 (number 11 but we don't know this yet),  
+              row = mid / n 
+                  = 5 / 4
+                  = 1 (we are in row 1 so this is true)  
+                  // number 11 is in row 1  (currently we only know row from this)
+
+      col = mid % n        // this will give the current column for current mid  
+          Explanation:
+
+            Suppose in the 1st run, mid = element 5 (number 11 but we don't know this yet)
+            So with mid in element 5 (number 11)
+              col = mid % n
+                  = 5 % 4
+                  = 1 (we are in column 1 so this is true) 
+                  // number 11 is index 1 (column 1)   (currently we only know column from this)
+
+      // finally we will find that the number we are checking is 11 after finding row and column
+      num = matrix[row][col]      // 11 in the 1st run 
+            // matrix[row][col] = matrix[1][1] which is true 
+            // 11 is matrix[1][1]              --> this is like arr[mid] in 1D arrays
+
+      if (num == target):
+        return true
+
+      if (num > target):
+        right = mid - 1
+      else:
+        left = mid + 1
+
+    return false
+           
+    -----
+
+    Time = O(log(m*n))
+    Space = O(1)
+                    
+    */
+    
+    int m = matrix.length;            // row length
+    int n = matrix[0].length;         // column length 
+
+    int left = 0;                // 1st element
+    int right = m * n - 1;       // last element
+
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+
+      int row = mid / n;
+      int col = mid % n;
+
+      int num = matrix[row][col];
+
+      if (num == target) {
+        return true;
+      }
+
+      if (num > target) {
+        right = mid - 1;
+      }  else {
+        left = mid + 1;
+      }
+    }
+
+    return false; 
+ 
+  }
+}

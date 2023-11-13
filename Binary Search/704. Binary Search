@@ -35,7 +35,7 @@ class Main {
 
     ----
 
-    Time = O(n)
+    Time = O(log n)
     Space = O(1)
     
     */

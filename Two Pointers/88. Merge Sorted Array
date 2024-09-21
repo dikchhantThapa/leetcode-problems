@@ -57,6 +57,11 @@ class Main {
       nums1[last] = nums2[n - 1]
       n--
       last--
+
+
+   ----------
+   Time - O(m + n)
+   Space - O(1)
           
     */
 
@@ -95,5 +100,76 @@ class Main {
     return nums1;
         
   }
+
+/*
+
+// alternate solution (same time and space complexity as above solution)
+
+   class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+    
+        /**
+        
+        nums1 = {1, 2, 3, 0, 0, 0}  
+                       i(last element of nums1 array)
+                                k(last element of nums1)
+
+        nums2 = {2, 5, 6}
+                       j(last element of nums2 array)
+
+        i = m - 1
+        j = n - 1
+        k = m + n - 1  (last element of nums1 array)
+
+        while (i >= 0 && j >= 0):
+            if(nums1[i] > nums2[j]):
+                nums1[k] = nums1[i]
+                k--
+                i--
+            else:
+                nums1[k] = nums2[j]
+                k--
+                j--
+
+        // if j has remaining elements
+        while (j > 0):
+            nums1[k] = nums2[j]
+            k--
+            j--
+
+
+        ---------------
+
+        Time - O(n)
+        Space - O(1)
+        
+         */
+
+        int i = m - 1;
+        int j = n - 1;
+        int k = m + n - 1;
+
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[k] = nums1[i];
+                i--;
+            }   else {
+                nums1[k] = nums2[j];
+                j--;
+            }
+            k--;        // decrement this regardless of which condition
+        }
+
+        // if j still has remaining elements, transfer it to nums1 array
+        while (j >= 0) {
+            nums1[k] = nums2[j];
+            k--;
+            j--;
+        }
+
+    }
+}
+
+*/
   
 }
